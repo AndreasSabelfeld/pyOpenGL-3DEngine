@@ -41,7 +41,7 @@ def main():
 
     while glutGetWindow() != 0:
         # game logic
-        renderer.prepare()        # clear screen
+        display.update_display()        # clear screen
         shader.start()            # start the shader
         renderer.render(textured_model)    # render everything
         shader.stop()             # stop the shader once finished rendering

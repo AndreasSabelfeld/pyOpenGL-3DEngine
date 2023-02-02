@@ -24,9 +24,11 @@ class DisplayManager:
 
     @staticmethod
     def update_display():
+        glClearColor(1, 0, 0, 1)                            # set backdrop color to red
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)  # Remove everything from screen (i.e. displays all white)
         glLoadIdentity()                                    # Reset all graphic/shape's position
         glutSwapBuffers()                                   # Important for double buffering
+        glEnable(GL_TEXTURE_2D)
 
     def destroy_window(self):
         Loader.clean_up()

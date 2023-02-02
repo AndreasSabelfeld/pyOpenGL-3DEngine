@@ -1,10 +1,9 @@
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from PIL import Image
-
-from .raw_model import RawModel
 import numpy
 import sys
+from .raw_model import RawModel
 
 
 class Loader:
@@ -27,6 +26,7 @@ class Loader:
     def load_texture(cls, file_name: str):
         try:
             img = Image.open(f"{sys.path[0]}/res/{file_name}.png")
+            img = img.transpose(Image.FLIP_TOP_BOTTOM)              # flip image upside down
         except Exception as e:
             print(e)
             raise SystemExit
@@ -38,6 +38,8 @@ class Loader:
         cls.__textures.append(texture_id)
         glBindTexture(GL_TEXTURE_2D, texture_id)  # make it current
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
         # copy the texture into the current texture texture_id
         glTexImage2D(GL_TEXTURE_2D, 0, 3, ix, iy, 0, GL_RGBA, GL_UNSIGNED_BYTE, image)
         return texture_id

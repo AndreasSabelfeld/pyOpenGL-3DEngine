@@ -10,11 +10,12 @@ class Renderer:
     def prepare():
         glClearColor(1, 0, 0, 1)        # set backdrop color to red
         glClear(GL_COLOR_BUFFER_BIT)    # clear everything
+        glEnable(GL_TEXTURE_2D)
 
     @staticmethod
     def render(model: TexturedModel):
         raw_model = model.get_raw_model()
-        glBindVertexArray(raw_model.get_vao_id())                    # bind the desired VAO to be able to use it
+        glBindVertexArray(raw_model.get_vao_id())                # bind the desired VAO to be able to use it
         glEnableVertexAttribArray(0)                             # we have put the indices in the 0th address
         glEnableVertexAttribArray(1)                             # we have put the textures in the 1st address
         glActiveTexture(GL_TEXTURE0)
