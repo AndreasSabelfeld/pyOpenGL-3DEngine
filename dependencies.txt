@@ -1,0 +1,4 @@
+pyOpenGL
+numpy
+PIL
+abc
