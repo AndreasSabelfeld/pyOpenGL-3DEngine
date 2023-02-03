@@ -16,6 +16,33 @@ class ShaderProgram:
         self.bind_attributes()
         glLinkProgram(self.__program_id)                                # link the program to the shaders
         glValidateProgram(self.__program_id)                            # validate the program
+        glUseProgram(self.__program_id)
+        self.get_all_uniform_locations()
+
+    @abstractmethod
+    def get_all_uniform_locations(self):
+        pass
+
+    def get_uniform_location(self, uniform_name: str):
+        return glGetUniformLocation(self.get_program_id(), uniform_name)
+
+    @staticmethod
+    def load_float(location: int, value: float):
+        glUniform1f(location, value)
+
+    @staticmethod
+    def load_vector(location: int, vector: list[float]):
+        glUniform3f(location, vector[0], vector[1], vector[2])  # x y z
+
+    @staticmethod
+    def load_boolean(location: int, boolean: float):
+        to_load = 0
+        if boolean: to_load = 1
+        glUniform1f(location, to_load)
+
+    @staticmethod
+    def load_matrix(location: int, matrix: list[list]):
+        glUniformMatrix4fv(location, 1, False, matrix)
 
     def start(self):
         glUseProgram(self.get_program_id())

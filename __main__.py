@@ -5,6 +5,7 @@ from renderEngine.loader import Loader
 from shaders.static_shader import StaticShader
 from textures.model_texture import ModelTexture
 from models.textured_model import TexturedModel
+from entities.entity import Entity
 
 
 def main():
@@ -32,8 +33,10 @@ def main():
 
     loader = Loader()
     model = loader.load_to_vao(vertices, texture_coords, indices)
-    texture = ModelTexture(loader.load_texture("crate"))
-    textured_model = TexturedModel(model, texture)
+    texture = ModelTexture(loader.load_texture("grass"))
+    static_model = TexturedModel(model, texture)
+
+    entity = Entity(static_model, [-1, 0, 0], 0, 0, 0, 1)
 
     renderer = Renderer()
 
@@ -41,10 +44,13 @@ def main():
 
     while glutGetWindow() != 0:
         # game logic
-        display.update_display()        # clear screen
+        entity.increase_position(0.0002, 0, 0)
+        entity.increase_rotation(0, 0.1, 0)
+        display.update_display()
         shader.start()            # start the shader
-        renderer.render(textured_model)    # render everything
+        renderer.render(entity, shader)    # render everything
         shader.stop()             # stop the shader once finished rendering
+        glutSwapBuffers()         # needs to be called AFTER finished drawing
         glutMainLoopEvent()       # used to run openGL manually in a loop instead of glutMainLoop()
 
 
